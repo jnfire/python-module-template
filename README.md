@@ -69,7 +69,7 @@ python -m venv .venv
 source .venv/bin/activate
 
 # Activar el entorno (en Windows)
-# .\.venv\Scripts\activate
+.\.venv\Scripts\activate
 ```
 
 Instala las dependencias y tu paquete en modo editable. Esto te permitirá probar tus cambios localmente de forma inmediata.
@@ -169,7 +169,17 @@ python setup.py sdist bdist_wheel
 
 **Buena práctica:** El archivo `.gitignore` de esta plantilla ya está configurado para ignorar las carpetas `dist/`, `build/` y `*.egg-info/`, que se generan durante este proceso.
 
-### 2. Publicar en PyPI
+### 2. Instalar Localmente (Sin Publicar)
+
+Si quieres instalar el paquete en otro entorno local para probar el artefacto final antes de publicarlo, puedes usar el archivo `.whl` que generaste.
+
+```bash
+# Instala el paquete usando la ruta al archivo wheel.
+# Reemplaza el nombre del archivo con el que se generó en tu carpeta dist/.
+pip install dist/mi_paquete-0.0.1-py3-none-any.whl
+```
+
+### 3. Publicar en PyPI
 
 [PyPI (Python Package Index)](https://pypi.org/) es el repositorio oficial de paquetes de Python. Para publicar tu módulo, necesitarás la herramienta `twine`.
 
