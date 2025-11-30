@@ -113,36 +113,30 @@ El `Makefile` contiene atajos para los comandos más comunes. Para ver todos los
 
 ---
 
-## Testing con `unittest`
+## Testing con `pytest`
 
-Las pruebas son esenciales para asegurar la calidad y mantenibilidad del código. Esta plantilla usa `unittest`, el framework de testing incorporado en Python.
+`pytest` es el estándar de facto para testing en Python por su simplicidad y potencia.
 
-### Estructura de Tests
-
--   Los tests se encuentran en la carpeta `/tests`.
--   Los archivos de test deben empezar con el prefijo `test_` (e.g., `test_main.py`).
--   Dentro de un archivo, las funciones de test también deben empezar con `test_`.
-
-### Ejecutar los Tests
-
-Para descubrir y ejecutar todos los tests del proyecto, usa el siguiente comando desde la raíz del proyecto:
-
-```bash
-python -m unittest discover tests
-```
-
-### Ejemplo de Test
-
-Hemos incluido un test de ejemplo en `tests/test_main.py` que prueba la función `greet()` del módulo `module_name/main.py`. Úsalo como guía para crear tus propias pruebas.
+**Escribir Tests:**
+Simplemente crea funciones que empiecen con `test_` y usa `assert` para comprobar los resultados.
 
 ```python
 # tests/test_main.py
-import unittest
 from module_name.main import greet
 
-class TestMain(unittest.TestCase):
-    def test_greet_with_name(self):
-        self.assertEqual(greet("Javi"), "Hello, Javi")
+def test_greet_with_name():
+    """Prueba que la función saluda por nombre."""
+    assert greet("Javi") == "Hello, Javi"
+```
+
+**Ejecutar Tests:**
+Usa el atajo del `Makefile`:
+```bash
+make test
+```
+O ejecuta `pytest` directamente:
+```bash
+pytest
 ```
 
 ---

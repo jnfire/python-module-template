@@ -45,8 +45,8 @@ install: .venv/touchfile
 # ====================================================================================
 
 test:
-	@echo "Ejecutando tests..."
-	python -m unittest discover tests
+	@echo "Ejecutando tests con pytest..."
+	pytest
 
 lint:
 	@echo "Revisando el código con ruff..."

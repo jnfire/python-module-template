@@ -4,4 +4,5 @@ wheel
 bumpversion
 ruff
 black
+pytest
 -r requirements.txt
