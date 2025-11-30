@@ -25,22 +25,22 @@ classifiers = [
     "License :: OSI Approved :: The Unlicense (Unlicense)",
     "Operating System :: OS Independent",
 ]
-# Las dependencias del proyecto van aquí.
-# Ejemplo: dependencies = ["requests", "numpy"]
+# Project dependencies go here.
+# Example: dependencies = ["requests", "numpy"]
 dependencies = []
 
 
 [project.optional-dependencies]
-# Dependencias para desarrollo: testing, linting, building, etc.
+# Development dependencies: testing, linting, building, etc.
 dev = [
     "pip",
-    "bump-my-version", # El sucesor moderno de bumpversion
+    "bump-my-version", # The modern successor to bumpversion
     "ruff",
     "black",
     "build",
     "twine",
     "pytest",
-    "pre-commit", # Para ganchos de pre-commit
+    "pre-commit", # For pre-commit hooks
 ]
 
 
@@ -55,15 +55,15 @@ dev = [
 
 # --- Setuptools Configuration ---
 [tool.setuptools.packages.find]
-where = ["src"]  # Busca los paquetes en el directorio src
+where = ["src"]  # Find packages in the src directory
 
 
 # --- Bump-my-version Configuration ---
 [tool.bump-my-version]
 commit = true
 tag = true
-# La versión en [project] se actualiza automáticamente.
-# Aquí solo se listan otros archivos para actualizar.
+# The version in [project] is updated automatically.
+# Only other files to be updated are listed here.
 [[tool.bump-my-version.files]]
 filename = "VERSION.txt"
 
@@ -78,13 +78,13 @@ target-version = ['py38']
 [tool.ruff]
 line-length = 88
 
-# Reglas: Pyflakes (F), pycodestyle (E, W), isort (I)
+# Rules: Pyflakes (F), pycodestyle (E, W), isort (I)
 select = ["E", "F", "W", "I"]
 ignore = []
 
-# Permitir variables no usadas en __init__.py (si es necesario)
+# Allow unused variables in __init__.py if necessary
 [tool.ruff.per-file-ignores]
-"src/module_name/__init__.py" = ["F401"] # Actualizado a la nueva ruta
+"src/module_name/__init__.py" = ["F401"] # Updated to the new path
 
 [tool.ruff.format]
 quote-style = "double"
