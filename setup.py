@@ -44,7 +44,7 @@ setup(
     author_email=__email__,
     name=PACKAGE_NAME,
     version=version,
-    description='Project containing exercises from the Python course of the CEI school.',
+    description='Your project description.',
     install_requires=requirements,
     setup_requires=requirements_dev,
     packages=find_packages(include=[PACKAGE_NAME, f"{PACKAGE_NAME}.*"])
