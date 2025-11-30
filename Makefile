@@ -40,6 +40,8 @@ endif
 install: .venv/touchfile
 	@echo "Instalando dependencias de desarrollo y el paquete en modo editable..."
 	@$(VENV_ACTIVATE) && pip install --upgrade pip && pip install -e .[dev]
+	@echo "Configurando ganchos de pre-commit..."
+	@$(VENV_ACTIVATE) && pre-commit install
 
 
 # ====================================================================================
