@@ -185,3 +185,20 @@ make publish
 These commands use `twine` to securely upload the artifacts from the `dist/` folder.
 
 ---
+
+## Next Steps: Making the Project Your Own
+
+Once you've configured and tested the template, it's time to make it your own. Here are some steps to clean up the example content and start with your own code:
+
+1.  **Remove example code (`src/my_package/main.py`):**
+    *   The `greet()` function and the `main()` entry point are just examples. Delete them and start writing your module's real functionality.
+
+2.  **Delete example tests (`tests/test_main.py`):**
+    *   This file contains tests for the `greet()` function. Delete this file or clear its content to start writing your own tests.
+
+3.  **Update your changelog (`CHANGELOG.md`):**
+    *   The `CHANGELOG.md` file is empty, ready for you to add your first entry.
+    *   You can start with something like: `0.0.1 - YYYY-MM-DD: Initial project setup from template.`
+
+4.  **Review the license (`LICENSE`):**
+    *   Although already mentioned, make sure the `LICENSE` file contains the final license you wish to use for your project.

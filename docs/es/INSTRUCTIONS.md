@@ -185,3 +185,20 @@ make publish
 Estos comandos usan `twine` para subir de forma segura los artefactos de la carpeta `dist/`.
 
 ---
+
+## Próximos Pasos: Haz Tuyo el Proyecto
+
+Una vez que hayas configurado y probado la plantilla, es hora de hacerla tuya. Aquí hay algunos pasos para limpiar el contenido de ejemplo y empezar con tu propio código:
+
+1.  **Elimina el código de ejemplo (`src/mi_paquete/main.py`):**
+    *   La función `greet()` y el punto de entrada `main()` son solo ejemplos. Bórralos y empieza a escribir la funcionalidad real de tu módulo.
+
+2.  **Borra los tests de ejemplo (`tests/test_main.py`):**
+    *   Este archivo contiene tests para la función `greet()`. Borra este archivo o vacía su contenido para empezar a escribir tus propios tests.
+
+3.  **Actualiza tu registro de cambios (`CHANGELOG.md`):**
+    *   El archivo `CHANGELOG.md` está vacío, listo para que añadas tu primera entrada.
+    *   Puedes empezar con algo como: `0.0.1 - YYYY-MM-DD: Initial project setup from template.`
+
+4.  **Revisa la licencia (`LICENSE`):**
+    *   Aunque ya lo mencionamos, asegúrate de que el archivo `LICENSE` contenga la licencia final que deseas usar para tu proyecto.
