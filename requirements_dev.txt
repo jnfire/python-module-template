@@ -2,4 +2,6 @@ pip
 setuptools
 wheel
 bumpversion
+ruff
+black
 -r requirements.txt

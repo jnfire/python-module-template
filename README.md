@@ -89,6 +89,30 @@ pip install -e .
 
 ---
 
+## Calidad de Código y Tareas Automatizadas con `Makefile`
+
+Para facilitar las tareas comunes y mantener un código limpio y consistente, esta plantilla incluye herramientas de calidad de código y un `Makefile`.
+
+### Herramientas de Calidad de Código
+
+-   **Ruff (`ruff`)**: Un linter y formateador de Python extremadamente rápido. Ayuda a detectar errores, malas prácticas y problemas de estilo.
+-   **Black (`black`)**: Un formateador de código "sin concesiones" que asegura un estilo uniforme en todo el proyecto.
+
+Estas herramientas están configuradas en el archivo `pyproject.toml`.
+
+### Comandos del `Makefile`
+
+El `Makefile` contiene atajos para los comandos más comunes. Para ver todos los comandos disponibles, ejecuta `make help`.
+
+-   `make install`: Crea un entorno virtual (si no existe) e instala todas las dependencias. **Es el primer comando que deberías ejecutar.**
+-   `make test`: Ejecuta la suite de pruebas.
+-   `make lint`: Revisa el código en busca de errores y problemas de estilo con `ruff`.
+-   `make format`: Formatea todo el código del proyecto con `ruff` y `black`.
+-   `make build`: Construye el paquete para su distribución.
+-   `make clean`: Elimina todos los archivos generados (entorno virtual, artefactos de build, etc.).
+
+---
+
 ## Testing con `unittest`
 
 Las pruebas son esenciales para asegurar la calidad y mantenibilidad del código. Esta plantilla usa `unittest`, el framework de testing incorporado en Python.
