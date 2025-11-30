@@ -1,6 +1,6 @@
-# Plantilla para Módulo de Python
+# Plantilla Didáctica para Módulo de Python
 
-Este proyecto es una plantilla para crear un módulo de Python instalable. Proporciona una estructura de proyecto básica, gestión de dependencias y configuración para empaquetado.
+Este proyecto es una plantilla para crear un módulo de Python instalable. Su objetivo es servir como guía de arranque, mostrando una estructura de proyecto robusta, buenas prácticas y los procesos comunes en el ciclo de vida de un paquete.
 
 ## Cómo Empezar
 
@@ -55,51 +55,141 @@ replace = __version__ = "{new_version}"
 
 Este proyecto incluye por defecto la licencia "The Unlicense" (ver archivo `LICENSE`), que dedica el software al dominio público.
 
-**Importante:** Debes revisar y, si es necesario, reemplazar el contenido del archivo `LICENSE` con la licencia que mejor se adapte a tu proyecto (MIT, GPL, Apache, etc.).
+**Buena práctica:** Investiga qué licencia se adapta a tus necesidades. `choosealicense.com` es un excelente recurso. Una vez elegida, reemplaza el contenido del archivo `LICENSE`.
 
 ### 6. Instalar Dependencias
 
-Instala las dependencias de desarrollo y del proyecto:
+**Buena práctica:** Es muy recomendable usar un entorno virtual para aislar las dependencias de tu proyecto.
 
 ```bash
-pip install -r requirements_dev.txt
-pip install -r requirements.txt
+# Crear un entorno virtual
+python -m venv .venv
+
+# Activar el entorno (en macOS/Linux)
+source .venv/bin/activate
+
+# Activar el entorno (en Windows)
+# .\.venv\Scripts\activate
 ```
 
-Luego, instala tu paquete en modo editable. Esto te permitirá probar tus cambios localmente de forma inmediata.
+Instala las dependencias y tu paquete en modo editable. Esto te permitirá probar tus cambios localmente de forma inmediata.
 
 ```bash
+# Instalar dependencias
+pip install -r requirements_dev.txt
+pip install -r requirements.txt
+
+# Instalar el paquete en modo editable
 pip install -e .
 ```
 
 ### 7. ¡A Programar!
 
-¡Listo! Ya puedes empezar a desarrollar tu módulo. Añade tu código dentro de la carpeta `mi_paquete` y crea pruebas en la carpeta `tests`.
+¡Listo! Ya puedes empezar a desarrollar tu módulo. Añade tu código dentro de la carpeta `mi_paquete`.
 
-## Estructura del Proyecto
+---
 
-```
-.
-├── LICENSE           # Archivo de licencia (¡Debes editarlo!)
-├── README.md         # La documentación que estás leyendo
-├── requirements.txt  # Dependencias del módulo
-├── requirements_dev.txt # Dependencias de desarrollo (testing, etc.)
-├── setup.cfg         # Configuración para `bumpversion`
-├── setup.py          # Script de empaquetado (usa setuptools)
-├── VERSION.txt       # Archivo con la versión actual
-├── mi_paquete/       # El código fuente de tu paquete
-│   ├── __init__.py   # Metadatos e inicialización del paquete
-│   └── main.py       # Un punto de entrada de ejemplo
-└── tests/            # Pruebas para tu módulo
-    └── __init__.py
-```
+## Testing con `unittest`
 
-## Versionado
+Las pruebas son esenciales para asegurar la calidad y mantenibilidad del código. Esta plantilla usa `unittest`, el framework de testing incorporado en Python.
 
-Para gestionar la versión de tu paquete, puedes usar `bumpversion`. Por ejemplo, para pasar de `0.0.1` a `0.1.0`:
+### Estructura de Tests
+
+-   Los tests se encuentran en la carpeta `/tests`.
+-   Los archivos de test deben empezar con el prefijo `test_` (e.g., `test_main.py`).
+-   Dentro de un archivo, las funciones de test también deben empezar con `test_`.
+
+### Ejecutar los Tests
+
+Para descubrir y ejecutar todos los tests del proyecto, usa el siguiente comando desde la raíz del proyecto:
 
 ```bash
-bumpversion minor
+python -m unittest discover tests
 ```
 
-Este comando actualizará automáticamente la versión en `VERSION.txt` y en `mi_paquete/__init__.py`.
+### Ejemplo de Test
+
+Hemos incluido un test de ejemplo en `tests/test_main.py` que prueba la función `greet()` del módulo `module_name/main.py`. Úsalo como guía para crear tus propias pruebas.
+
+```python
+# tests/test_main.py
+import unittest
+from module_name.main import greet
+
+class TestMain(unittest.TestCase):
+    def test_greet_with_name(self):
+        self.assertEqual(greet("Javi"), "Hello, Javi")
+```
+
+---
+
+## Versionado Semántico y `bumpversion`
+
+El versionado ayuda a comunicar qué tipo de cambios incluye una nueva versión. Usamos el **Versionado Semántico** (formato `MAYOR.MENOR.PARCHE`).
+
+-   **PARCHE (`PATCH`)**: Corrección de bugs retrocompatible.
+-   **MENOR (`MINOR`)**: Nueva funcionalidad retrocompatible.
+-   **MAYOR (`MAJOR`)**: Cambios que rompen la retrocompatibilidad.
+
+`bumpversion` es una herramienta que automatiza la actualización de la versión en todos los archivos necesarios.
+
+### Uso de `bumpversion`
+
+**Buena práctica:** Antes de subir la versión, asegúrate de que todos tus cambios están en `git`.
+
+```bash
+# Sube un parche (e.g., de 0.0.1 a 0.0.2)
+bumpversion patch
+
+# Sube una versión menor (e.g., de 0.0.2 a 0.1.0)
+bumpversion minor
+
+# Sube una versión mayor (e.g., de 0.1.0 a 1.0.0)
+bumpversion major
+```
+
+Estos comandos actualizan la versión en `VERSION.txt` y en el `__init__.py` de tu paquete, y crean un `commit` y un `tag` de `git` automáticamente.
+
+---
+
+## Empaquetado y Distribución
+
+Cuando tu módulo esté listo para ser compartido, debes empaquetarlo.
+
+### 1. Construir el Paquete
+
+El siguiente comando genera dos formatos de distribución en una nueva carpeta `dist/`:
+
+-   **Wheel (`.whl`)**: Un formato pre-compilado (binario) que acelera la instalación.
+-   **Source Archive (`.tar.gz`)**: Un archivo con el código fuente (`sdist`).
+
+```bash
+python setup.py sdist bdist_wheel
+```
+
+**Buena práctica:** El archivo `.gitignore` de esta plantilla ya está configurado para ignorar las carpetas `dist/`, `build/` y `*.egg-info/`, que se generan durante este proceso.
+
+### 2. Publicar en PyPI
+
+[PyPI (Python Package Index)](https://pypi.org/) es el repositorio oficial de paquetes de Python. Para publicar tu módulo, necesitarás la herramienta `twine`.
+
+```bash
+# Instalar twine si no lo tienes
+pip install twine
+```
+
+**Buena práctica:** Antes de publicar en el PyPI real, es recomendable hacer una prueba en [TestPyPI](https://test.pypi.org/), un entorno de pruebas separado.
+
+```bash
+# Publicar en TestPyPI
+twine upload --repository testpypi dist/*
+```
+
+Cuando estés seguro de que todo funciona, publícalo en el PyPI oficial:
+
+```bash
+# Publicar en PyPI (oficial)
+twine upload dist/*
+```
+
+Twine te pedirá tu usuario y contraseña de PyPI. ¡Y listo, tu paquete estará disponible para que cualquiera lo instale con `pip`!
