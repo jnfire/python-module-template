@@ -1,19 +1,98 @@
 # pyproject.toml
 
+# ====================================================================================
+# Build System Configuration
+# ====================================================================================
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+# ====================================================================================
+# Project Metadata (PEP 621)
+# ====================================================================================
+[project]
+name = "module_name"
+version = "0.0.0"
+authors = [
+  { name="Your Name", email="your_email@example.com" },
+]
+description = "A modern Python module template."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: The Unlicense (Unlicense)",
+    "Operating System :: OS Independent",
+]
+# Las dependencias del proyecto van aquí.
+# Ejemplo: dependencies = ["requests", "numpy"]
+dependencies = []
+
+
+[project.optional-dependencies]
+# Dependencias para desarrollo: testing, linting, building, etc.
+dev = [
+    "pip",
+    "bump-my-version", # El sucesor moderno de bumpversion
+    "ruff",
+    "black",
+    "build",
+    "twine",
+    "pytest",
+]
+
+
+[project.urls]
+"Homepage" = "https://github.com/your_username/your_project_name"
+"Bug Tracker" = "https://github.com/your_username/your_project_name/issues"
+
+
+# ====================================================================================
+# Tool Configurations
+# ====================================================================================
+
+# --- Setuptools Configuration ---
+[tool.setuptools.packages.find]
+where = ["src"]  # Busca los paquetes en el directorio src
+
+
+# --- Bump-my-version Configuration ---
+[tool.bump-my-version]
+commit = true
+tag = true
+# La versión en [project] se actualiza automáticamente.
+# Aquí solo se listan otros archivos para actualizar.
+[[tool.bump-my-version.files]]
+filename = "VERSION.txt"
+
+
+# --- Black Configuration ---
 [tool.black]
 line-length = 88
-target-version = ['py310']
+target-version = ['py38']
 
+
+# --- Ruff Configuration ---
 [tool.ruff]
 line-length = 88
 
-# Enable Pyflakes (F) and pycodestyle (E, W) and isort (I) rules
+# Reglas: Pyflakes (F), pycodestyle (E, W), isort (I)
 select = ["E", "F", "W", "I"]
 ignore = []
 
-# Allow unused variables in __init__.py
+# Permitir variables no usadas en __init__.py (si es necesario)
 [tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
+"src/module_name/__init__.py" = ["F401"] # Actualizado a la nueva ruta
 
 [tool.ruff.format]
 quote-style = "double"
+
+
+# --- Pytest Configuration ---
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]

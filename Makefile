@@ -1,4 +1,4 @@
-# Makefile for Python Module Template
+# Makefile for Python Module Template (Modern)
 
 .PHONY: help install clean test lint format build
 
@@ -12,11 +12,13 @@ RESET := \033[0m
 
 help:
 	@echo "Comandos disponibles:"
-	@echo "  ${GREEN}install${RESET}  -> Instala dependencias del proyecto en un entorno virtual."
+	@echo "  ${GREEN}install${RESET}  -> Crea venv e instala dependencias de desarrollo."
 	@echo "  ${GREEN}test${RESET}     -> Ejecuta las pruebas con unittest."
 	@echo "  ${GREEN}lint${RESET}     -> Revisa el estilo y los errores del código con ruff."
 	@echo "  ${GREEN}format${RESET}   -> Formatea el código con ruff y black."
-	@echo "  ${GREEN}build${RESET}    -> Construye el paquete (wheel y sdist)."
+	@echo "  ${GREEN}build${RESET}    -> Construye el paquete (wheel y sdist) usando 'build'."
+	@echo "  ${GREEN}publish-test${RESET} -> Publica el paquete en TestPyPI."
+	@echo "  ${GREEN}publish${RESET}  -> Publica el paquete en PyPI."
 	@echo "  ${GREEN}clean${RESET}    -> Elimina los artefactos de construcción y cachés."
 
 
@@ -36,8 +38,8 @@ endif
 	touch .venv/touchfile
 
 install: .venv/touchfile
-	@echo "Instalando dependencias..."
-	@$(VENV_ACTIVATE) && pip install -r requirements_dev.txt
+	@echo "Instalando dependencias de desarrollo y el paquete en modo editable..."
+	@$(VENV_ACTIVATE) && pip install --upgrade pip && pip install -e .[dev]
 
 
 # ====================================================================================
@@ -45,8 +47,8 @@ install: .venv/touchfile
 # ====================================================================================
 
 test:
-	@echo "Ejecutando tests..."
-	python -m unittest discover tests
+	@echo "Ejecutando tests con pytest..."
+	pytest
 
 lint:
 	@echo "Revisando el código con ruff..."
@@ -59,12 +61,25 @@ format:
 
 
 # ====================================================================================
-# CONSTRUCCIÓN Y LIMPIEZA
+# CONSTRUCCIÓN Y PUBLICACIÓN
 # ====================================================================================
 
 build:
-	@echo "Construyendo el paquete..."
-	python setup.py sdist bdist_wheel
+	@echo "Construyendo el paquete con 'build'..."
+	python -m build
+
+publish-test: build
+	@echo "Publicando en TestPyPI..."
+	twine upload --repository testpypi dist/*
+
+publish: build
+	@echo "Publicando en PyPI..."
+	twine upload dist/*
+
+
+# ====================================================================================
+# LIMPIEZA
+# ====================================================================================
 
 clean:
 	@echo "Limpiando artefactos..."
@@ -72,4 +87,3 @@ clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
 	@echo "Limpieza completada."
-

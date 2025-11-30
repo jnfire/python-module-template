@@ -1,229 +1,126 @@
-# Plantilla Didáctica para Módulo de Python
+# Plantilla Moderna para Módulo de Python (src layout + pytest)
 
-Este proyecto es una plantilla para crear un módulo de Python instalable. Su objetivo es servir como guía de arranque, mostrando una estructura de proyecto robusta, buenas prácticas y los procesos comunes en el ciclo de vida de un paquete.
+Este proyecto es una plantilla de última generación para crear un módulo de Python instalable. Incorpora las mejores prácticas de la comunidad, incluyendo:
+
+-   **`pyproject.toml`**: Como único archivo de configuración (PEP 621).
+-   **Estructura `src`**: Para evitar errores de importación y asegurar tests robustos.
+-   **`pytest`**: Para escribir tests de forma simple y potente.
+-   **`ruff` y `black`**: Para calidad y formato de código automatizado.
+-   **`Makefile`**: Para simplificar las tareas más comunes.
+
+## Estructura del Proyecto (`src` layout)
+
+```
+mi-proyecto/
+├── src/
+│   └── mi_paquete/         <-- El código fuente de tu paquete vive aquí
+│       ├── __init__.py
+│       └── main.py
+├── tests/                  <-- Tests para tu paquete
+│   └── test_main.py
+├── .gitignore
+├── LICENSE
+├── Makefile                <-- Atajos para tareas comunes
+├── pyproject.toml          <-- ¡El único archivo de configuración que necesitas!
+└── README.md
+```
+
+La ventaja de la estructura `src` es que te obliga a instalar el paquete para probarlo, asegurando que los tests se ejecutan en las mismas condiciones que tendrá el usuario final.
 
 ## Cómo Empezar
 
-Sigue estos pasos para usar esta plantilla y empezar tu propio módulo.
+### 1. Renombrar el Módulo
 
-### 1. Clonar el Repositorio
-
-Clona este repositorio en tu máquina local con el nombre que desees para tu nuevo proyecto:
+El código fuente se encuentra en `src/module_name`. Renómbralo para que coincida con el nombre de tu paquete.
 
 ```bash
-git clone https://github.com/usuario/plantilla-python.git mi-nuevo-modulo
-cd mi-nuevo-modulo
+mv src/module_name src/mi_paquete
 ```
 
-### 2. Renombrar el Módulo
+### 2. Configurar `pyproject.toml`
 
-El código fuente principal se encuentra en la carpeta `module_name`. Debes renombrarla para que coincida con el nombre de tu paquete Python.
+Este archivo es el centro de control. Ábrelo y edita la sección `[project]`:
+
+```toml
+[project]
+name = "mi_paquete" # <-- ¡Muy importante! Debe coincidir con el nombre de la carpeta.
+version = "0.0.1"
+authors = [
+  { name="Tu Nombre", email="tu_email@dominio.com" },
+]
+description = "Una descripción genial de mi paquete."
+```
+Este archivo también gestiona las dependencias de tu proyecto y las de desarrollo.
+
+### 3. Instalar el Entorno de Desarrollo
+
+Usa el `Makefile` para preparar tu entorno:
 
 ```bash
-mv module_name mi_paquete
+make install
 ```
 
-### 3. Actualizar los Metadatos del Paquete
-
-Abre el archivo `mi_paquete/__init__.py` y edita los siguientes campos con tu información:
-
-```python
-# mi_paquete/__init__.py
-
-__author__ = "Tu Nombre"
-__email__ = "tu_email@dominio.com"
-__version__ = "0.0.1"  # O la versión inicial que prefieras
-
-PACKAGE_NAME = "mi_paquete" # Asegúrate que coincida con el nuevo nombre de la carpeta
-```
-
-El archivo `setup.py` leerá esta información automáticamente.
-
-### 4. Actualizar la Configuración de Versión
-
-El archivo `setup.cfg` se usa para automatizar el versionado con `bumpversion`. Asegúrate de que la ruta apunte a tu nuevo directorio de paquete.
-
-**Si renombraste `module_name` a `mi_paquete`**, actualiza `setup.cfg` así:
-
-```ini
-[bumpversion:file:mi_paquete/__init__.py]
-search = __version__ = "{current_version}"
-replace = __version__ = "{new_version}"
-```
-
-### 5. Elegir una Licencia
-
-Este proyecto incluye por defecto la licencia "The Unlicense" (ver archivo `LICENSE`), que dedica el software al dominio público.
-
-**Buena práctica:** Investiga qué licencia se adapta a tus necesidades. `choosealicense.com` es un excelente recurso. Una vez elegida, reemplaza el contenido del archivo `LICENSE`.
-
-### 6. Instalar Dependencias
-
-**Buena práctica:** Es muy recomendable usar un entorno virtual para aislar las dependencias de tu proyecto.
-
-```bash
-# Crear un entorno virtual
-python -m venv .venv
-
-# Activar el entorno (en macOS/Linux)
-source .venv/bin/activate
-
-# Activar el entorno (en Windows)
-.\.venv\Scripts\activate
-```
-
-Instala las dependencias y tu paquete en modo editable. Esto te permitirá probar tus cambios localmente de forma inmediata.
-
-```bash
-# Instalar dependencias
-pip install -r requirements_dev.txt
-pip install -r requirements.txt
-
-# Instalar el paquete en modo editable
-pip install -e .
-```
-
-### 7. ¡A Programar!
-
-¡Listo! Ya puedes empezar a desarrollar tu módulo. Añade tu código dentro de la carpeta `mi_paquete`.
+Este comando crea un entorno virtual, instala `pytest`, `ruff`, etc., y tu paquete en **modo editable** (`-e`).
 
 ---
 
-## Calidad de Código y Tareas Automatizadas con `Makefile`
+## Testing con `pytest`
 
-Para facilitar las tareas comunes y mantener un código limpio y consistente, esta plantilla incluye herramientas de calidad de código y un `Makefile`.
+`pytest` es el estándar de facto para testing en Python por su simplicidad y potencia.
 
-### Herramientas de Calidad de Código
-
--   **Ruff (`ruff`)**: Un linter y formateador de Python extremadamente rápido. Ayuda a detectar errores, malas prácticas y problemas de estilo.
--   **Black (`black`)**: Un formateador de código "sin concesiones" que asegura un estilo uniforme en todo el proyecto.
-
-Estas herramientas están configuradas en el archivo `pyproject.toml`.
-
-### Comandos del `Makefile`
-
-El `Makefile` contiene atajos para los comandos más comunes. Para ver todos los comandos disponibles, ejecuta `make help`.
-
--   `make install`: Crea un entorno virtual (si no existe) e instala todas las dependencias. **Es el primer comando que deberías ejecutar.**
--   `make test`: Ejecuta la suite de pruebas.
--   `make lint`: Revisa el código en busca de errores y problemas de estilo con `ruff`.
--   `make format`: Formatea todo el código del proyecto con `ruff` y `black`.
--   `make build`: Construye el paquete para su distribución.
--   `make clean`: Elimina todos los archivos generados (entorno virtual, artefactos de build, etc.).
-
----
-
-## Testing con `unittest`
-
-Las pruebas son esenciales para asegurar la calidad y mantenibilidad del código. Esta plantilla usa `unittest`, el framework de testing incorporado en Python.
-
-### Estructura de Tests
-
--   Los tests se encuentran en la carpeta `/tests`.
--   Los archivos de test deben empezar con el prefijo `test_` (e.g., `test_main.py`).
--   Dentro de un archivo, las funciones de test también deben empezar con `test_`.
-
-### Ejecutar los Tests
-
-Para descubrir y ejecutar todos los tests del proyecto, usa el siguiente comando desde la raíz del proyecto:
-
-```bash
-python -m unittest discover tests
-```
-
-### Ejemplo de Test
-
-Hemos incluido un test de ejemplo en `tests/test_main.py` que prueba la función `greet()` del módulo `module_name/main.py`. Úsalo como guía para crear tus propias pruebas.
+**Escribir Tests:**
+Simplemente crea funciones que empiecen con `test_` y usa `assert` para comprobar los resultados.
 
 ```python
 # tests/test_main.py
-import unittest
 from module_name.main import greet
 
-class TestMain(unittest.TestCase):
-    def test_greet_with_name(self):
-        self.assertEqual(greet("Javi"), "Hello, Javi")
+def test_greet_with_name():
+    """Prueba que la función saluda por nombre."""
+    assert greet("Javi") == "Hello, Javi"
+```
+
+**Ejecutar Tests:**
+Usa el atajo del `Makefile`:
+```bash
+make test
+```
+O ejecuta `pytest` directamente:
+```bash
+pytest
 ```
 
 ---
 
-## Versionado Semántico y `bumpversion`
+## Tareas Comunes con `Makefile`
 
-El versionado ayuda a comunicar qué tipo de cambios incluye una nueva versión. Usamos el **Versionado Semántico** (formato `MAYOR.MENOR.PARCHE`).
+Usa `make help` para ver todos los comandos.
 
--   **PARCHE (`PATCH`)**: Corrección de bugs retrocompatible.
--   **MENOR (`MINOR`)**: Nueva funcionalidad retrocompatible.
--   **MAYOR (`MAJOR`)**: Cambios que rompen la retrocompatibilidad.
+-   `make install`: Instala el entorno de desarrollo.
+-   `make test`: Ejecuta las pruebas con `pytest`.
+-   `make lint`: Revisa el código con `ruff`.
+-   `make format`: Formatea el código con `ruff` y `black`.
+-   `make build`: Construye el paquete para su distribución.
+-   `make publish-test`: Publica el paquete en TestPyPI.
+-   `make publish`: Publica el paquete en PyPI.
+-   `make clean`: Elimina todos los archivos generados.
 
-`bumpversion` es una herramienta que automatiza la actualización de la versión en todos los archivos necesarios.
+---
 
-### Uso de `bumpversion`
+## Versionado Semántico con `bump-my-version`
+
+El versionado (`MAYOR.MENOR.PARCHE`) se gestiona con `bump-my-version`, el sucesor moderno de `bumpversion`. Está configurado para actualizar la versión directamente en `pyproject.toml` y `VERSION.txt`.
 
 **Buena práctica:** Antes de subir la versión, asegúrate de que todos tus cambios están en `git`.
 
 ```bash
 # Sube un parche (e.g., de 0.0.1 a 0.0.2)
-bumpversion patch
+bump-my-version patch
 
 # Sube una versión menor (e.g., de 0.0.2 a 0.1.0)
-bumpversion minor
-
-# Sube una versión mayor (e.g., de 0.1.0 a 1.0.0)
-bumpversion major
+bump-my-version minor
 ```
-
-Estos comandos actualizan la versión en `VERSION.txt` y en el `__init__.py` de tu paquete, y crean un `commit` y un `tag` de `git` automáticamente.
 
 ---
 
 ## Empaquetado y Distribución
-
-Cuando tu módulo esté listo para ser compartido, debes empaquetarlo.
-
-### 1. Construir el Paquete
-
-El siguiente comando genera dos formatos de distribución en una nueva carpeta `dist/`:
-
--   **Wheel (`.whl`)**: Un formato pre-compilado (binario) que acelera la instalación.
--   **Source Archive (`.tar.gz`)**: Un archivo con el código fuente (`sdist`).
-
-```bash
-python setup.py sdist bdist_wheel
-```
-
-**Buena práctica:** El archivo `.gitignore` de esta plantilla ya está configurado para ignorar las carpetas `dist/`, `build/` y `*.egg-info/`, que se generan durante este proceso.
-
-### 2. Instalar Localmente (Sin Publicar)
-
-Si quieres instalar el paquete en otro entorno local para probar el artefacto final antes de publicarlo, puedes usar el archivo `.whl` que generaste.
-
-```bash
-# Instala el paquete usando la ruta al archivo wheel.
-# Reemplaza el nombre del archivo con el que se generó en tu carpeta dist/.
-pip install dist/mi_paquete-0.0.1-py3-none-any.whl
-```
-
-### 3. Publicar en PyPI
-
-[PyPI (Python Package Index)](https://pypi.org/) es el repositorio oficial de paquetes de Python. Para publicar tu módulo, necesitarás la herramienta `twine`.
-
-```bash
-# Instalar twine si no lo tienes
-pip install twine
-```
-
-**Buena práctica:** Antes de publicar en el PyPI real, es recomendable hacer una prueba en [TestPyPI](https://test.pypi.org/), un entorno de pruebas separado.
-
-```bash
-# Publicar en TestPyPI
-twine upload --repository testpypi dist/*
-```
-
-Cuando estés seguro de que todo funciona, publícalo en el PyPI oficial:
-
-```bash
-# Publicar en PyPI (oficial)
-twine upload dist/*
-```
-
-Twine te pedirá tu usuario y contraseña de PyPI. ¡Y listo, tu paquete estará disponible para que cualquiera lo instale con `pip`!
