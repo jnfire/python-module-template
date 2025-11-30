@@ -1,30 +1,30 @@
-# Makefile for Python Module Template
+# Makefile for Python Module Template (Legacy)
 
 .PHONY: help install clean test lint format build
 
-# Colores para la salida
-GREEN := \033[0;32m
-RESET := \033[0m
+# Shell colors
+GREEN  := \033[0;32m
+RESET  := \033[0;32m
 
 # ====================================================================================
-# AYUDA
+# HELP
 # ====================================================================================
 
 help:
-	@echo "Comandos disponibles:"
-	@echo "  ${GREEN}install${RESET}  -> Instala dependencias del proyecto en un entorno virtual."
-	@echo "  ${GREEN}test${RESET}     -> Ejecuta las pruebas con unittest."
-	@echo "  ${GREEN}lint${RESET}     -> Revisa el estilo y los errores del código con ruff."
-	@echo "  ${GREEN}format${RESET}   -> Formatea el código con ruff y black."
-	@echo "  ${GREEN}build${RESET}    -> Construye el paquete (wheel y sdist)."
-	@echo "  ${GREEN}clean${RESET}    -> Elimina los artefactos de construcción y cachés."
+	@echo "Available commands:"
+	@echo "  ${GREEN}install${RESET}  -> Installs project dependencies into a virtual environment."
+	@echo "  ${GREEN}test${RESET}     -> Runs tests with pytest."
+	@echo "  ${GREEN}lint${RESET}     -> Checks code style and errors with ruff."
+	@echo "  ${GREEN}format${RESET}   -> Formats code with ruff and black."
+	@echo "  ${GREEN}build${RESET}    -> Builds the package (wheel and sdist)."
+	@echo "  ${GREEN}clean${RESET}    -> Removes all build artifacts and caches."
 
 
 # ====================================================================================
-# GESTIÓN DE ENTORNO Y DEPENDENCIAS
+# ENVIRONMENT AND DEPENDENCY MANAGEMENT
 # ====================================================================================
 
-# Comprobación del sistema operativo para la activación del venv
+# OS check for venv activation
 ifeq ($(OS),Windows_NT)
     VENV_ACTIVATE = .\.venv\Scripts\activate
 else
@@ -36,40 +36,44 @@ endif
 	touch .venv/touchfile
 
 install: .venv/touchfile
-	@echo "Instalando dependencias..."
+	@echo "Installing dependencies..."
 	@$(VENV_ACTIVATE) && pip install -r requirements_dev.txt
 
 
 # ====================================================================================
-# CALIDAD DE CÓDIGO Y TESTING
+# CODE QUALITY AND TESTING
 # ====================================================================================
 
 test:
-	@echo "Ejecutando tests con pytest..."
+	@echo "Running tests with pytest..."
 	pytest
 
 lint:
-	@echo "Revisando el código con ruff..."
+	@echo "Checking code with ruff..."
 	ruff check .
 
 format:
-	@echo "Formateando el código con ruff y black..."
+	@echo "Formatting code with ruff and black..."
 	ruff format .
 	black .
 
 
 # ====================================================================================
-# CONSTRUCCIÓN Y LIMPIEZA
+# BUILD AND PUBLISH
 # ====================================================================================
 
 build:
-	@echo "Construyendo el paquete..."
+	@echo "Building package..."
 	python setup.py sdist bdist_wheel
 
+
+# ====================================================================================
+# CLEANUP
+# ====================================================================================
+
 clean:
-	@echo "Limpiando artefactos..."
+	@echo "Cleaning up artifacts..."
 	rm -rf build dist *.egg-info .pytest_cache .mypy_cache .coverage __pycache__ .venv
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
-	@echo "Limpieza completada."
-
+	@echo "Cleanup complete."
