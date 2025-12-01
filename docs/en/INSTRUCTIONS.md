@@ -29,6 +29,37 @@ my-project/
 
 The advantage of the `src` layout is that it forces you to install the package to test it, ensuring that tests run under the same conditions as they will for the end user.
 
+### The Role of `__init__.py`: Exposing Your API
+
+The `src/my_package/__init__.py` file not only defines the directory as a Python package but also allows you to create a clean public API for your module.
+
+For instance, instead of having users import functions from deep within your project's structure, like this:
+
+```python
+# Less ideal, couples the user to your internal structure
+from my_package.main import greet
+```
+
+You can expose the `greet` function directly in the `__init__.py`:
+
+```python
+# src/my_package/__init__.py
+"""Top-level package for my_package."""
+
+from .main import greet
+
+__all__ = ["greet"]
+```
+
+This way, the end-user can import `greet` in a much cleaner and more intuitive way:
+
+```python
+# Ideal, the API is cleaner and decoupled from the structure
+from my_package import greet
+```
+
+This template is already configured with this pattern for the example `greet` function. Take advantage of it to provide a great experience for your module's users!
+
 ## Getting Started
 
 ### 1. Rename the Module

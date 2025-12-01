@@ -50,7 +50,7 @@ install: .venv/touchfile
 
 test:
 	@echo "Running tests with pytest..."
-	pytest
+	@$(VENV_ACTIVATE) && pytest
 
 lint:
 	@echo "Checking code with ruff..."

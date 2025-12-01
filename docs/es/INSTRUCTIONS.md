@@ -29,6 +29,37 @@ mi-proyecto/
 
 La ventaja de la estructura `src` es que te obliga a instalar el paquete para probarlo, asegurando que los tests se ejecutan en las mismas condiciones que tendrá el usuario final.
 
+### El Rol de `__init__.py`: Exponiendo tu API
+
+El archivo `src/mi_paquete/__init__.py` no solo define el directorio como un paquete de Python, sino que también te permite crear una API pública limpia para tu módulo.
+
+Por ejemplo, en lugar de que los usuarios tengan que importar funciones desde la estructura interna de tu proyecto, así:
+
+```python
+# Menos ideal, acopla al usuario a tu estructura interna
+from mi_paquete.main import greet
+```
+
+Puedes exponer la función `greet` directamente en el `__init__.py`:
+
+```python
+# src/mi_paquete/__init__.py
+"""Top-level package for mi_paquete."""
+
+from .main import greet
+
+__all__ = ["greet"]
+```
+
+De esta forma, el usuario final puede importar `greet` de una manera mucho más limpia e intuitiva:
+
+```python
+# Ideal, la API es más limpia y desacoplada de la estructura
+from mi_paquete import greet
+```
+
+Esta plantilla ya viene configurada con este patrón para la función `greet` de ejemplo. ¡Aprovéchalo para ofrecer una gran experiencia a los usuarios de tu módulo!
+
 ## Cómo Empezar
 
 ### 1. Renombrar el Módulo

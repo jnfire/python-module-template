@@ -1,4 +1,4 @@
-from module_name.main import greet
+from module_name import greet
 
 
 def test_greet_with_name():
