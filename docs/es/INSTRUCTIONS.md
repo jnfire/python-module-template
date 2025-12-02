@@ -169,6 +169,9 @@ bump-my-version patch
 
 # Sube una versión menor (e.g., de 0.0.2 a 0.1.0)
 bump-my-version minor
+
+# Sube una versión mayor (e.g., de 0.1.0 a 1.0.0)
+bump-my-version major
 ```
 
 ---
